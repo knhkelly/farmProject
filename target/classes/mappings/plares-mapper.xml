@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PlaresDAO">
+	<!-- 체험상품 예약 정보 인서트문 -->
+	<insert id="insertPlares">
+		INSERT INTO plares(pla_res_num,pla_res_date,pla_res_totalprice,pla_res_headcount,pla_res_name,pla_num,pla_name,pla_res_status)
+		VALUES(#{pla_res_num},#{pla_res_headcount}*(SELECT PLA_PRICE FROM PLAYLIST WHERE PLA_NUM=#{pla_num}),
+		#{pla_res_headcount},#{pla_res_name},#{pla_num},#{pla_name},#{pla_res_status})
+	</insert>
+
+	<!-- 체험상품 예약 정보 업데이트문(예약취소 쿼리문으로 대체함) -->
+	<select id="updatePlares">
+		update plares set pla_res_status = 'n' where pla_res_num=#{pla_res_num}
+	</select>
+
+	<!-- 체험상품 예약 정보 삭제문 -->
+	<select id="getPlares">
+		delete from plares where pla_res_num=#{pla_res_num}
+	</select>
+
+	<!-- 체험상품 예약 정보 조회(1줄):회원예약정보조회 -->
+	<select id="getPlares">
+		select * from plares where pla_res_num=#{pla_res_num}
+	</select>
+
+	<!-- 체험상품 예약 정보 조회(여러 줄) -->
+	<select id="getPlaresList">
+		select * from plares where 1 = 1
+	</select>
+
+	<!-- 체험상품 예약취소 업데이트문 -->
+	<update id='cancelPlares'>
+		update plares set pla_res_status = 'n' where pla_res_num=#{pla_res_num}
+	</update>
+
+</mapper>
